@@ -15,11 +15,11 @@ jobs:
       - uses: morrisoncole/pr-lint-action@v1.7.1
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          title-regex: "(?:Homework|Test)[0-9]{1,2}:\\s\\w+\\s\\w+"
+          title-regex: "(?:Feature|Fix|Doc)[0-9]{1,2}:\\s\\w+\\s\\w+"
           on-failed-regex-fail-action: true
           on-failed-regex-create-review: true
           on-failed-regex-request-changes: true
           on-failed-regex-comment:
-            "Please, FIX Pull Request title, it should be ``Homework<number><:> <Your Name> <Your Surname>``"
+            "Please, FIX Pull Request title, it should be ``(Feature|Fix|Doc)<number><:> <Your Name> <Your Lastname>``"
           on-succeeded-regex-dismiss-review-comment:
             "Pull Request title looks good!"
