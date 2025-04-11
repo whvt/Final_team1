@@ -12,8 +12,8 @@ Final project on testing web-app made by students of Md-PT2-20-25.
     <img style="width: 50px; height: 50px;border-radius: 50%" src="https://avatars.githubusercontent.com/u/10655454?v=4" />
     </a>
 
--   <a style="width: 50px; height: 50px;border-radius: 50%" href="https://github.com/">
-    <img src="" />
+-   <a style="width: 50px; height: 50px;border-radius: 50%" href="https://github.com/KononovichM">
+    <img style="width: 50px; height: 50px;border-radius: 50%" src="https://avatars.githubusercontent.com/u/123749576?v=4" />
     </a>
 
 <a  href="https://github.com/Stml89">
