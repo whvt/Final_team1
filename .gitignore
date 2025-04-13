@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 .idea
+*.bat
+*.sh
+/assets
+*.xml
+*.html
+*.log
 # Distribution / packaging
 .Python
 build/
