@@ -1,3 +1,8 @@
+flake8
+pycodestyle
+mypy
+ruff
+pylint
 attrs==25.3.0
 certifi==2025.1.31
 h11==0.14.0
