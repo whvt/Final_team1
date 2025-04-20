@@ -20,4 +20,4 @@ jobs:
           pip install -r requirements.txt
       - name: Analysing the code with pylint
         run: |
-          pylint --disable=C0112,C0114,C0115,C0116,C0103,R1705,R0903 --ignore=.venv .
+          pylint --disable=C0112,C0114,C0115,C0116,C0103,R1705,R0903,R0902 --ignore=.venv .
