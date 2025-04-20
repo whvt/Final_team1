@@ -11,6 +11,7 @@ def driver():
     yield driver_instance
     driver_instance.quit()
 
+
 def test_contact_list(driver):
     logger = logging.getLogger(__name__)
     logger.info("Starting test_contact_list...")
@@ -25,12 +26,9 @@ def test_contact_list(driver):
     logger.info("Fetching contact list data...")
     contacts = contact_list_page.get_contacts()
 
-
     logger.info(f"Contacts retrieved: {contacts}")
     for contact in contacts:
         logger.info(f"Contact: {contact}")
 
-
     assert len(contacts) > 0, "Contact list is empty!"
     logger.info(f"Contact list test passed! Retrieved {len(contacts)} contacts.")
-

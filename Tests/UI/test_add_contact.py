@@ -30,7 +30,7 @@ def test_add_contact(driver):
         "city": "Metropolis",
         "state_province": "New York",
         "postal_code": "10001",
-        "country": "USA"
+        "country": "USA",
     }
 
     logger.info("Filling contact details...")
@@ -40,15 +40,18 @@ def test_add_contact(driver):
     add_contact_page.submit_form()
 
     logger.info("Checking if redirected to Contact List page...")
-    assert "contactList" in driver.current_url, "Failed to redirect to Contact List page after form submission!"
+    assert "contactList" in driver.current_url, (
+        "Failed to redirect to Contact List page after form submission!"
+    )
 
     logger.info("Fetching updated contact list...")
     contacts = contact_list_page.get_contacts()
 
-
     logger.info(f"Contacts after addition: {contacts}")
 
-
-    assert any(contact["name"] == "Alice Smith" and contact["email"] == "alice.smith@example.com" for contact in contacts), \
-        "New contact not found in contact list!"
+    assert any(
+        contact["name"] == "Alice Smith"
+        and contact["email"] == "alice.smith@example.com"
+        for contact in contacts
+    ), "New contact not found in contact list!"
     logger.info("Add Contact test passed!")
