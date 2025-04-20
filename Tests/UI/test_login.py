@@ -1,5 +1,5 @@
-import pytest
 import logging
+import pytest
 from Tests.utils.browser_manager import get_driver
 from Tests.UI.pages.login_page import LoginPage
 

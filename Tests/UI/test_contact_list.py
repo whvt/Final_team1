@@ -1,5 +1,5 @@
-import pytest
 import logging
+import pytest
 from Tests.utils.browser_manager import get_driver
 from Tests.UI.pages.login_page import LoginPage
 from Tests.UI.pages.contact_list_page import ContactListPage
@@ -26,9 +26,9 @@ def test_contact_list(driver):
     logger.info("Fetching contact list data...")
     contacts = contact_list_page.get_contacts()
 
-    logger.info(f"Contacts retrieved: {contacts}")
+    logger.info("Contacts retrieved: %s", contacts)
     for contact in contacts:
-        logger.info(f"Contact: {contact}")
+        logger.info("Contact: %s", contact)
 
     assert len(contacts) > 0, "Contact list is empty!"
-    logger.info(f"Contact list test passed! Retrieved {len(contacts)} contacts.")
+    logger.info("Contact list test passed! Retrieved %s contacts.", len(contacts))

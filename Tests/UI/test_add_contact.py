@@ -1,7 +1,7 @@
+import logging
 from Tests.UI.pages.login_page import LoginPage
 from Tests.UI.pages.contact_list_page import ContactListPage
 from Tests.UI.pages.add_contact_page import AddContactPage
-import logging
 
 
 def test_add_contact(driver):
@@ -47,7 +47,7 @@ def test_add_contact(driver):
     logger.info("Fetching updated contact list...")
     contacts = contact_list_page.get_contacts()
 
-    logger.info(f"Contacts after addition: {contacts}")
+    logger.info("Contacts after addition: %s", contacts)
 
     assert any(
         contact["name"] == "Alice Smith"
