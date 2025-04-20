@@ -43,6 +43,13 @@ tree
 ```
 # <a id="title3"> Environment</a>
 \to be filled
+
+Local linters may have sensitive project path. For convenience commands below
+may be used, so changes to .bat and .sh won't be tracked:
+```
+git update-index --assume-unchanged Misc/linters.bat
+git update-index --assume-unchanged Misc/linters.sh
+```
 # <a id="title4"> Linters and autotests</a>
 \to be filled
 # <a id="title5"> How to run locally</a>
