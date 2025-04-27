@@ -1,7 +1,5 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-
 from selenium.webdriver.common.by import By
 from Tests.UI.pages.base_page import BasePage
 
@@ -9,9 +7,14 @@ from Tests.UI.pages.base_page import BasePage
 class ContactListPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
+        self.num = 1
         self.logout_button = ("id", "logout")
         self.add_contact_button = ("id", "add-contact")
         self.contact_table_rows = ("css selector", "tr.contactTableBodyRow")
+        self.contact_data_button = (By.XPATH, f"//tr[@class='contactTableBodyRow'][{self.num}]")
+
+    def click_contact_data(self):
+        self.wait_for_element(self.contact_data_button).click()
 
     def logout(self):
         self.wait_for_element(self.logout_button).click()
@@ -42,3 +45,15 @@ class ContactListPage(BasePage):
                 }
             )
         return contacts
+
+    def no_contacts(self):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_all_elements_located(
+                    (By.CSS_SELECTOR, "tr.contactTableBodyRow")
+                )
+            )
+            return False
+        except Exception as e:
+                print(f'Отсутствуют контакты : {e}')
+                return True
