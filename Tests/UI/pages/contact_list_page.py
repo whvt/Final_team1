@@ -53,7 +53,7 @@ class ContactListPage(BasePage):
                     (By.CSS_SELECTOR, "tr.contactTableBodyRow")
                 )
             )
+            print('Ошибка: наличие контакта в списке контактов после удаления')
             return False
-        except Exception as e:
-                print(f'Отсутствуют контакты : {e}')
-                return True
+        except ValueError:
+            return True

@@ -23,7 +23,7 @@ class ContactDetailsPage(BasePage):
         self.return_to_list_button = (By.ID, "return")
         self.logout_button = ("id", "logout")
         self.edit_contact = (By.XPATH, "//h1[contains(text(), 'Edit Contact')]")
-        self.contact_chart =(By.ID, "contactDetails")
+        self.contact_chart = (By.ID, "contactDetails")
         self.contact_chart_span = (By.TAG_NAME, "span")
 
     def logout(self):

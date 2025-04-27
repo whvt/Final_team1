@@ -57,8 +57,8 @@ def test_contact_details(driver):
     logger.info("Collecting data from first row (first contact) in Contact List page...")
     contacts_list_single_collected = contact_list_page.get_contacts()
     logger.info("Comparing data from Contact List page and Contact Details page...")
-    list_and_detail_comparison2 = (contact_detail_page.compare_dicts
-        (contacts_list_single_collected[0],contact_detail_collected, ignore_keys={'id'})
+    list_and_detail_comparison2 = contact_detail_page.compare_dicts(
+        contacts_list_single_collected[0], contact_detail_collected, ignore_keys={"id"}
     )
     assert list_and_detail_comparison2 is True
     logger.info("Navigating to Contact List page...")
