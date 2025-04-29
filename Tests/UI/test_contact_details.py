@@ -16,16 +16,14 @@ def test_contact_details(driver):
     tests for ContactDetail / ContactEdit pages
     """
     logger = logging.getLogger(__name__)
-    login_page = LoginPage(driver)
+    log_in_page = LoginPage(driver)
     add_contact_page = AddContactPage(driver)
     contact_list_page = ContactListPage(driver)
     contact_detail_page = ContactDetailsPage(driver)
     contact_edit_page = ContactEditsPage(driver)
-
-    logger.info("Logging in...")
-    login_page.open()
-    login_page.login()
-
+    logger.info("Logging in ...")
+    log_in_page.open()
+    log_in_page.login()
     logger.info("Navigating to Add Contact page...")
     contact_list_page.click_add_contact()
     logger.info("Filling contact details...")
