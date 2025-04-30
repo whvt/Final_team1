@@ -1,1 +1,26 @@
 USER_CREDS = {"username": "wrtgsdfv@gmail.com", "password": "1234567"}
+
+contact_details = {
+    "first_name": "Alice",
+    "first_name2": "Barbara",
+    "last_name": "Smith",
+    "last_name2": "Smith2",
+    "birthdate": "1990-05-15",
+    "birthdate2": "1999-07-15",
+    "email": "alice.smith@example.com",
+    "email2": "alice.smith@example2.com",
+    "phone": "1234567890",
+    "phone2": "1234567892",
+    "street1": "456 Elm Street",
+    "street1-2": "NDA Street",
+    "street2": "",
+    "street2-2": "My land",
+    "city": "Metropolis",
+    "city2": "City17",
+    "state_province": "New York",
+    "state_province2": "Washington DC",
+    "postal_code": "10001",
+    "postal_code2": "10002",
+    "country": "USA",
+    "country2": "GERMANY",
+}

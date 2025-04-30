@@ -2,6 +2,7 @@ import logging
 from Tests.UI.pages.login_page import LoginPage
 from Tests.UI.pages.contact_list_page import ContactListPage
 from Tests.UI.pages.add_contact_page import AddContactPage
+from Tests.config.user_creds import contact_details
 
 
 def test_add_contact(driver):
@@ -18,20 +19,6 @@ def test_add_contact(driver):
 
     logger.info("Navigating to Add Contact page...")
     contact_list_page.click_add_contact()
-
-    contact_details = {
-        "first_name": "Alice",
-        "last_name": "Smith",
-        "birthdate": "1990-05-15",
-        "email": "alice.smith@example.com",
-        "phone": "1234567890",
-        "street1": "456 Elm Street",
-        "street2": "",
-        "city": "Metropolis",
-        "state_province": "New York",
-        "postal_code": "10001",
-        "country": "USA",
-    }
 
     logger.info("Filling contact details...")
     add_contact_page.enter_contact_details(contact_details)

@@ -1,4 +1,5 @@
 import logging
+
 from Tests.UI.pages.login_page import LoginPage
 from Tests.UI.pages.contact_list_page import ContactListPage
 
