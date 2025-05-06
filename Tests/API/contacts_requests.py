@@ -99,6 +99,7 @@ def delete_contact(token, contact_id):
         logger.error("Request error: %s", e)
         return None
 
+
 def add_contact_with_payload(token, payload):
     endpoint = "/contacts"
     headers = {
