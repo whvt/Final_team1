@@ -100,6 +100,7 @@ def test_add_contact_invalid_phone():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
+
 def test_add_contact_empty_body():
     token = login_user(user_email, True)
     payload = {}
@@ -115,6 +116,7 @@ def test_add_contact_without_lastname():
         "email": generate_random_email(),
         "phone": "1234567890"
     }
+
     r = add_contact_with_payload(token, payload)
 
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
