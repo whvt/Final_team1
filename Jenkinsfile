@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GIT_URL = 'https://github.com/whvt/Final_team1'
-        GIT_CREDENTIALS = 'GITHUB_TOKEN'
+        GIT_CREDENTIALS = 'GITHUB_CREDENTIALS'
         DOCKER_IMAGE = 'teamone'
     }
 
