@@ -1,4 +1,3 @@
-import pytest
 from Tests.config.config_log import logger
 from Tests.API.users_requests import add_user, login_user
 from Tests.API.contacts_requests import (
@@ -45,7 +44,8 @@ def test_add_contact_without_street2():
 
     assert r.status_code == 201, f"Expected 201 Created, but got {r.status_code}"
     assert "street1" in r.json(), "street1 field is missing in response"
-    assert "street2" not in r.json() or r.json()["street2"] is None, "street2 should be absent or null"
+    assert ("street2" not in r.json() or r.json()["street2"]
+            is None), "street2 should be absent or null"
 
 
 def test_add_contact_without_required_field():
