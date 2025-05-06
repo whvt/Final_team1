@@ -100,7 +100,6 @@ def test_add_contact_invalid_phone():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
-
 def test_add_contact_empty_body():
     token = login_user(user_email, True)
     payload = {}
@@ -343,3 +342,4 @@ def test_delete_nonexistent_contact():
     r = delete_contact(token, nonexistent_id)
 
     assert r.status_code == 404, f"Expected 404 Not Found, but got {r.status_code}"
+
