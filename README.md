@@ -53,4 +53,10 @@ git update-index --assume-unchanged Misc/linters.sh
 # <a id="title4"> Linters and autotests</a>
 \to be filled
 # <a id="title5"> How to run locally</a>
-\to be filled
+```commandline
+docker build -t teamone .
+docker run --rm -p 5050:5050 teamone
+```
+
+
+This repo has a webhook that triggers Jenkins pipeline.
