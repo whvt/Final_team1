@@ -1,6 +1,7 @@
 
 FROM selenium/standalone-chrome
 
+USER root
 
 WORKDIR /app
 
