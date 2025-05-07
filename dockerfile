@@ -7,8 +7,7 @@ WORKDIR /app
 
 
 COPY requirements.txt .
-RUN sudo apt-get install -y python3
-RUN sudo apt-get install -y python3-pip
+RUN sudo apt-get update && apt-get install -y python3.10 python3-pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 
