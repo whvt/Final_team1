@@ -5,6 +5,8 @@ pipeline {
         GIT_URL = 'https://github.com/whvt/Final_team1'
         GIT_CREDENTIALS = 'GITHUB_CREDENTIALS'
         DOCKER_IMAGE = 'teamone'
+        ALLURE_RESULTS_DIR = 'reports'
+        ALLURE_REPORT_DIR = 'reports_html'
     }
 
     stages {
@@ -17,22 +19,28 @@ pipeline {
         stage('Build & Test') {
             steps {
                 sh 'docker build -t $DOCKER_IMAGE .'
-                sh 'docker run --rm $DOCKER_IMAGE pytest --alluredir=reports'
+                sh 'docker run --rm -v $(pwd)/$ALLURE_RESULTS_DIR:/allure-results $DOCKER_IMAGE pytest -v --alluredir=/allure-results'
             }
         }
 
         stage('Generate Allure Report') {
             steps {
-                sh 'allure generate reports -o reports_html'
+                sh 'allure generate $ALLURE_RESULTS_DIR -o $ALLURE_REPORT_DIR'
             }
         }
 
         stage('Publish Report') {
             steps {
                 allure([
-                    results: [[path: 'reports_html']]
+                    results: [[path: ALLURE_RESULTS_DIR]]
                 ])
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: "$ALLURE_REPORT_DIR/**/*", allowEmptyArchive: true
         }
     }
 }
