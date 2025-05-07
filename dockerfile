@@ -1,12 +1,13 @@
 
-FROM python:3.11
+FROM selenium/standalone-chrome
 
 
 WORKDIR /app
 
 
 COPY requirements.txt .
-RUN pip install --upgrade pip
+RUN sudo apt-get install -y python3
+RUN sudo apt-get install -y python3-pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 
@@ -16,5 +17,4 @@ RUN mkdir -p /app/allure-results
 
 EXPOSE 5050
 
-CMD ["sh", "-c", "pytest -v --alluredir allure-results --clean-alluredir"]
-
+CMD ["pytest", "-v", "--alluredir=allure-results"]
