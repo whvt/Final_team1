@@ -19,7 +19,7 @@ pipeline {
         stage('Build & Test') {
             steps {
                 sh 'docker build -t $DOCKER_IMAGE .'
-                sh 'docker run --rm -v $(pwd)/$ALLURE_RESULTS_DIR:/allure-results $DOCKER_IMAGE pytest -v --alluredir=/allure-results'
+                sh 'docker run --rm --network=host -v $(pwd)/$ALLURE_RESULTS_DIR:/allure-results $DOCKER_IMAGE pytest -v --alluredir=/allure-results'
             }
         }
 
