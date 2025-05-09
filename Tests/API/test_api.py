@@ -66,10 +66,10 @@ def test_add_user_short_password():
     short_password = '22'
     r_password = add_user(email, password=short_password)
     logger.info("Password is too short -> %s", short_password)
-    logger.debug("Response ->%s", r_password )
+    logger.debug("Response ->%s", r_password)
     value = int(len(r_password.json()["errors"]['password']['value']))
     message = r_password .json()["errors"]['password']['message']
-    assert value < 8 , f"Password length must be lesser than 5, but got {message}"
+    assert value < 8, f"Password length must be lesser than 5, but got {message}"
 
 
 def test_add_user_empty_email():
@@ -158,7 +158,7 @@ def test_login_user_invalid_token():
     """
     t = login_user(email, True)
     invalid_token = 'invalid_token'
-    r = logout_user(invalid_token )
+    r = logout_user(invalid_token)
     logger.info("Request sent!")
     logger.debug("Token used ->%s", t)
     logger.debug("Response ->%s", r)

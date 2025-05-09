@@ -64,8 +64,8 @@ def test_contact_details(driver):
     contact_detail_page.return_to_list()
     contacts_list_single_collected = contact_list_page.get_contacts()
     logger.info("Checking Contact List page for ANY contacts...")
-    no_contacts_in_list = contact_list_page.no_contacts(contacts_before_del_num,
-        len(contacts_list_single_collected)
+    no_contacts_in_list = contact_list_page.no_contacts(
+        contacts_before_del_num, len(contacts_list_single_collected)
     )
     assert no_contacts_in_list is True
     logger.info("logging out...")
