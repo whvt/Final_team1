@@ -46,14 +46,8 @@ class ContactListPage(BasePage):
             )
         return contacts
 
-    def no_contacts(self):
-        try:
-            WebDriverWait(self.driver, 10).until(
-                EC.presence_of_all_elements_located(
-                    (By.CSS_SELECTOR, "tr.contactTableBodyRow")
-                )
-            )
-            print('Ошибка: наличие контакта в списке контактов после удаления')
-            return False
-        except ValueError:
+    @staticmethod
+    def no_contacts(contacts_est1, contacts_est2):
+        if contacts_est2 < contacts_est1:
             return True
+        return False
