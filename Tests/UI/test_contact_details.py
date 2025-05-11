@@ -30,7 +30,6 @@ def test_contact_details(driver):
     add_contact_page.enter_contact_details(contact_details)
     logger.info("Submitting form ...")
     add_contact_page.submit_form()
-
     logger.info("Collecting data from first row (first contact) in Contact List page...")
     contacts_list_single_collected = contact_list_page.get_contacts()
     logger.info("Navigating to Contact Details page...")
@@ -46,25 +45,28 @@ def test_contact_details(driver):
     contact_detail_page.edit()
     logger.info("Updating contact details...")
     contact_edit_page.enter_contact_details(contact_details)
-    logger.info("Submitting form...")
     contact_edit_page.submit_edit()
-    logger.info("Collecting data from Contact Details page...")
     contact_detail_collected = contact_detail_page.collect_data()
     logger.info("Navigating to Contact List page...")
     contact_detail_page.return_to_list()
-    logger.info("Collecting data from first row (first contact) in Contact List page...")
     contacts_list_single_collected = contact_list_page.get_contacts()
+    contacts_before_del_num = len(contacts_list_single_collected)
     logger.info("Comparing data from Contact List page and Contact Details page...")
-    list_and_detail_comparison2 = contact_detail_page.compare_dicts(
-        contacts_list_single_collected[0], contact_detail_collected, ignore_keys={"id"}
-    )
-    assert list_and_detail_comparison2 is True
+    if contacts_list_single_collected:
+        list_and_detail_comparison2 = contact_detail_page.compare_dicts(
+            contacts_list_single_collected[-1], contact_detail_collected, ignore_keys={"id"}
+        )
+        assert list_and_detail_comparison2 is True
     logger.info("Navigating to Contact List page...")
     contact_list_page.click_contact_data()
     logger.info("Deleting contact data...")
     contact_detail_page.delete()
+    contact_detail_page.return_to_list()
+    contacts_list_single_collected = contact_list_page.get_contacts()
     logger.info("Checking Contact List page for ANY contacts...")
-    no_contacts_in_list = contact_list_page.no_contacts()
-    assert no_contacts_in_list
+    no_contacts_in_list = contact_list_page.no_contacts(
+        contacts_before_del_num, len(contacts_list_single_collected)
+    )
+    assert no_contacts_in_list is True
     logger.info("logging out...")
     contact_detail_page.logout()

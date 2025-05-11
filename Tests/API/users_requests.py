@@ -1,18 +1,20 @@
+"""USERS REQUESTS API"""
+
 import json
 import requests
 from Tests.config.config_log import logger
 from Tests.config.env import Env
 
 
-def add_user(em):
+def add_user(em, firstname="Test", lastname="User", password="myPassword"):
     """Creates a new user."""
     endpoint = "/users"
     payload = json.dumps(
         {
-            "firstName": "Test",
-            "lastName": "User",
+            "firstName": firstname,
+            "lastName": lastname,
             "email": em,
-            "password": "myPassword",
+            "password": password,
         }
     )
     headers = {"Content-Type": "application/json"}
@@ -28,9 +30,10 @@ def add_user(em):
         return None
 
 
-def login_user(email, parse_flag=False):
+def login_user(email, parse_flag=False, password="myPassword"):
+    """Logins a new user."""
     endpoint = "/users/login"
-    payload = json.dumps({"email": email, "password": "myPassword"})
+    payload = json.dumps({"email": email, "password": password})
     headers = {"Content-Type": "application/json"}
 
     try:
@@ -70,10 +73,10 @@ def get_user_profile(token):
         return None
 
 
-def update_user_profile(token):
+def update_user_profile(token, firstname="Updated", lastname="Updated"):
     """Updates user profile details."""
     endpoint = "/users/me"
-    payload = json.dumps({"firstName": "Updated", "lastName": "Updated"})
+    payload = json.dumps({"firstName": firstname, "lastName": lastname})
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
@@ -91,6 +94,7 @@ def update_user_profile(token):
 
 
 def delete_user(email):
+    """Deletes a new user."""
     add_user(email)
     t = login_user(email).json()["token"]
     endpoint = "/users/me"
