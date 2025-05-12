@@ -1,3 +1,4 @@
+import pytest
 from Tests.config.config_log import logger
 from Tests.API.users_requests import add_user, login_user
 from Tests.API.contacts_requests import (
@@ -18,6 +19,9 @@ def setup_module():
     logger.info("Test user created with email: %s", user_email)
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_add_contact():
     token = login_user(user_email, True)
     r = add_contact(token)
@@ -31,6 +35,9 @@ def test_add_contact():
     assert r.json()["lastName"] == "Contact"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_add_contact_without_street2():
     token = login_user(user_email, True)
     payload = {
@@ -48,6 +55,9 @@ def test_add_contact_without_street2():
             is None), "street2 should be absent or null"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_add_contact_without_required_field():
     token = login_user(user_email, True)
     payload = {
@@ -60,6 +70,9 @@ def test_add_contact_without_required_field():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_add_contact_invalid_email():
     token = login_user(user_email, True)
     payload = {
@@ -73,6 +86,9 @@ def test_add_contact_invalid_email():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_add_contact_invalid_birthdate():
     token = login_user(user_email, True)
     payload = {
@@ -87,6 +103,9 @@ def test_add_contact_invalid_birthdate():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_add_contact_invalid_phone():
     token = login_user(user_email, True)
     payload = {
@@ -100,6 +119,9 @@ def test_add_contact_invalid_phone():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_add_contact_empty_body():
     token = login_user(user_email, True)
     payload = {}
@@ -108,6 +130,9 @@ def test_add_contact_empty_body():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_add_contact_without_lastname():
     token = login_user(user_email, True)
     payload = {
@@ -121,18 +146,29 @@ def test_add_contact_without_lastname():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.auth
+@pytest.mark.regression
 def test_get_contacts_no_auth():
     r = get_contacts(None)
 
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.auth
+@pytest.mark.regression
 def test_get_contacts_invalid_token():
     r = get_contacts("invalid_token")
 
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_get_contacts_response_structure():
     token = login_user(user_email, True)
     add_contact(token)
@@ -150,6 +186,10 @@ def test_get_contacts_response_structure():
         assert "_id" in contact, "_id field is missing"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.auth
+@pytest.mark.regression
 def test_get_contact_by_id_no_auth():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -160,6 +200,10 @@ def test_get_contact_by_id_no_auth():
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.auth
+@pytest.mark.regression
 def test_get_contact_by_id_invalid_token():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -170,6 +214,9 @@ def test_get_contact_by_id_invalid_token():
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_get_contact_by_nonexistent_id():
     token = login_user(user_email, True)
     nonexistent_id = "60d21b4667d0d8992e610c85"
@@ -179,6 +226,9 @@ def test_get_contact_by_nonexistent_id():
     assert r.status_code == 404, f"Expected 404 Not Found, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_update_contact_put():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -202,6 +252,10 @@ def test_update_contact_put():
     assert get_response.json()["firstName"] == "PutUpdated"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.auth
+@pytest.mark.regression
 def test_update_contact_no_auth():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -216,6 +270,10 @@ def test_update_contact_no_auth():
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.auth
+@pytest.mark.regression
 def test_update_contact_invalid_token():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -230,6 +288,9 @@ def test_update_contact_invalid_token():
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_update_nonexistent_contact():
     token = login_user(user_email, True)
     nonexistent_id = "60d21b4667d0d8992e610c85"
@@ -243,6 +304,9 @@ def test_update_nonexistent_contact():
     assert r.status_code == 404, f"Expected 404 Not Found, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_update_contact_invalid_email():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -258,6 +322,9 @@ def test_update_contact_invalid_email():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_update_contact_empty_body():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -269,6 +336,9 @@ def test_update_contact_empty_body():
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_patch_contact_partial_update():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -285,6 +355,9 @@ def test_patch_contact_partial_update():
     assert r.json()["email"] == original_email
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_patch_contact_multiple_fields():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -303,6 +376,10 @@ def test_patch_contact_multiple_fields():
     assert r.json()["firstName"] == "Test"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.auth
+@pytest.mark.regression
 def test_delete_contact_no_auth():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -313,6 +390,10 @@ def test_delete_contact_no_auth():
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.auth
+@pytest.mark.regression
 def test_delete_contact_invalid_token():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -323,6 +404,9 @@ def test_delete_contact_invalid_token():
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_delete_contact_twice():
     token = login_user(user_email, True)
     contact_response = add_contact(token)
@@ -335,6 +419,9 @@ def test_delete_contact_twice():
     assert r2.status_code == 404, f"Expected 404 Not Found, but got {r2.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.contact_management
+@pytest.mark.regression
 def test_delete_nonexistent_contact():
     token = login_user(user_email, True)
     nonexistent_id = "60d21b4667d0d8992e610c85"

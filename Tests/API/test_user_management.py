@@ -1,5 +1,6 @@
 """Tests API"""
 
+import pytest
 from Tests.config.config_log import logger
 from Tests.API.users_requests import (
     add_user,
@@ -14,6 +15,9 @@ from Tests.utils.generator import generate_random_email
 email = generate_random_email()
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_add_user():
     """
     test add user
@@ -24,6 +28,9 @@ def test_add_user():
     assert r_email.status_code == 201, f"Expected 201 Created, but got {r_email.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_add_user_empty_firstname():
     """
     test add user with empty firstname
@@ -37,6 +44,9 @@ def test_add_user_empty_firstname():
     ), f"Expected 400 Created, but got {r_firstname.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_add_user_empty_lastname():
     """
     test add user with empty lastname
@@ -48,6 +58,9 @@ def test_add_user_empty_lastname():
     assert r_lastname.status_code == 400, f"Expected 400 Created, but got {r_lastname.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_add_user_empty_password():
     """
     test add user with empty password
@@ -59,6 +72,9 @@ def test_add_user_empty_password():
     assert r_password.status_code == 400, f"Expected 400 Created, but got {r_password.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_add_user_short_password():
     """
     test add user with short password
@@ -72,6 +88,9 @@ def test_add_user_short_password():
     assert value < 8, f"Password length must be lesser than 5, but got {message}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_add_user_empty_email():
     """
     test add user with empty email
@@ -83,6 +102,9 @@ def test_add_user_empty_email():
     assert r_email.status_code == 400, f"Expected 400 Created, but got {r_email.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_add_user_invalid_email():
     """
     test add user with invalid email
@@ -96,6 +118,9 @@ def test_add_user_invalid_email():
     ), f"Expected 400 Created, but got {r_invalid_email.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.auth
+@pytest.mark.regression
 def test_login_user():
     """
     test login user
@@ -108,6 +133,9 @@ def test_login_user():
     assert token
 
 
+@pytest.mark.apitests
+@pytest.mark.auth
+@pytest.mark.regression
 def test_login_user_email_invalid():
     """
     test login user with invalid email
@@ -119,6 +147,9 @@ def test_login_user_email_invalid():
     assert r_email_invalid is None, f"Expected None object, but got {r_email_invalid}"
 
 
+@pytest.mark.apitests
+@pytest.mark.auth
+@pytest.mark.regression
 def test_login_user_email_not_exist():
     """
     test login user with not existing email
@@ -130,6 +161,9 @@ def test_login_user_email_not_exist():
     assert r_not_exist is None, f"Expected None object, but got {r_not_exist}"
 
 
+@pytest.mark.apitests
+@pytest.mark.auth
+@pytest.mark.regression
 def test_login_user_email_field_empty():
     """
     test login user with empty email field
@@ -141,6 +175,9 @@ def test_login_user_email_field_empty():
     assert r_email_field_empty is None, f"Expected None object, but got {r_email_field_empty}"
 
 
+@pytest.mark.apitests
+@pytest.mark.auth
+@pytest.mark.regression
 def test_login_user_invalid_password():
     """
     test login user with invalid password
@@ -152,6 +189,9 @@ def test_login_user_invalid_password():
     assert r_invalid_password is None, f"Expected None object, but got {r_invalid_password}"
 
 
+@pytest.mark.apitests
+@pytest.mark.auth
+@pytest.mark.regression
 def test_login_user_invalid_token():
     """
     test login user with invalid token
@@ -165,6 +205,9 @@ def test_login_user_invalid_token():
     assert r.status_code == 401, f"Expected 401 OK {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_get_user_profile():
     """
     test get user profile
@@ -180,6 +223,9 @@ def test_get_user_profile():
     assert r.json()["lastName"] == "User"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_get_user_profile_after_logout():
     """
     test get user profile after logout
@@ -193,6 +239,9 @@ def test_get_user_profile_after_logout():
     assert log_out.status_code == 401, f"Expected 401 -Logout OK {log_out.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_get_user_profile_unauthorized():
     """
     test get user profile being unauthorized
@@ -203,6 +252,9 @@ def test_get_user_profile_unauthorized():
     assert unauthorized.status_code == 401, f"Expected 401 Unauthorized {unauthorized.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_update_user_profile():
     """
     test update user profile
@@ -218,6 +270,9 @@ def test_update_user_profile():
     assert r.json()["lastName"] == "Updated"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_update_user_profile_firstname_new():
     """
     test update user profile with new firstname data
@@ -236,6 +291,9 @@ def test_update_user_profile_firstname_new():
     assert r.json()["lastName"] == "Updated"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_update_user_profile_empty_req_body():
     """
     test update user profile with empty request body
@@ -252,6 +310,9 @@ def test_update_user_profile_empty_req_body():
     assert r.status_code == 400, f"Expected 400 OK {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_update_user_profile_empty_request_body():
     """
     test update user profile with empty request body
@@ -266,6 +327,9 @@ def test_update_user_profile_empty_request_body():
     ), f"Expected 401 -Logout OK {invalid_token_request.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_update_user_profile_unauthorized():
     """
     test update user profile being unauthorized
@@ -276,6 +340,9 @@ def test_update_user_profile_unauthorized():
     assert unauthorized.status_code == 401, f"Expected 401 Unauthorized {unauthorized.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.auth
+@pytest.mark.regression
 def test_logout_user():
     """
     test logout user
@@ -288,6 +355,9 @@ def test_logout_user():
     assert r.status_code == 200, f"Expected 200 OK {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.auth
+@pytest.mark.regression
 def test_logout_user_repeated():
     """
     test logout user repeated request
@@ -301,6 +371,9 @@ def test_logout_user_repeated():
     assert repeat_log_out.status_code == 401, f"Expected 401 OK {r.status_code}"
 
 
+@pytest.mark.apitests
+@pytest.mark.user_management
+@pytest.mark.regression
 def test_delete_user():
     """
     test delete user
