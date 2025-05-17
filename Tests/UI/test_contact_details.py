@@ -247,9 +247,12 @@ def test_contact_details_format_validation(driver):
 
     if "email" in contact_data and contact_data["email"]:
         logger.info("Checking email format...")
-        assert "@" in contact_data["email"], f"Email doesn't contain @ symbol: {contact_data['email']}"
-        assert "." in contact_data["email"].split("@")[1], \
-            f"Email domain is invalid: {contact_data['email']}"
+        assert (
+                "@" in contact_data["email"]
+        ), f"Email doesn't contain @ symbol: {contact_data['email']}"
+        assert (
+                "." in contact_data["email"].split("@")[1]
+        ), f"Email domain is invalid: {contact_data['email']}"
 
     if "phone" in contact_data and contact_data["phone"]:
         logger.info("Checking phone format...")

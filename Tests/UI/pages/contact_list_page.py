@@ -86,7 +86,6 @@ class ContactListPage(BasePage):
                     return raw_len
         return raw_len
 
-
     def contact_list_table_duplicates(self):
         """contact list table duplicates check"""
         WebDriverWait(self.driver, 10).until(
