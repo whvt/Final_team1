@@ -2,7 +2,11 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    StaleElementReferenceException,
+    TimeoutException,
+)
 from Tests.UI.pages.base_page import BasePage
 
 
@@ -46,21 +50,21 @@ class ContactDetailsPage(BasePage):
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located(self.contact_chart)
             )
-            
+
             time.sleep(0.5)
-            
+
             form = self.driver.find_element(*self.contact_chart)
-            
+
             WebDriverWait(self.driver, 5).until(
                 EC.visibility_of(form)
             )
-            
+
             spans = form.find_elements(*self.contact_chart_span)
             
             WebDriverWait(self.driver, 5).until(
                 lambda d: len(spans) > 0
             )
-            
+
             contact_data = {}
             for span in spans:
                 span_id = span.get_attribute("id")
@@ -74,7 +78,7 @@ class ContactDetailsPage(BasePage):
                             span_text = span.text.strip()
                         except TimeoutException:
                             pass
-                    
+
                     contact_data[span_id] = span_text
 
             first_name = contact_data.get('firstName', '').strip()
@@ -136,20 +140,28 @@ class ContactDetailsPage(BasePage):
 
     def is_edit_button_present(self):
         try:
-            return smart_wait_retry(lambda: self.wait_for_element(self.edit_contact_button, timeout=5) is not None)
+            return smart_wait_retry(
+                lambda: self.wait_for_element(self.edit_contact_button, timeout=5)
+                        is not None
+            )
         except Exception:
             return False
 
     def is_return_button_present(self):
         try:
-            return smart_wait_retry(lambda: self.wait_for_element(self.return_to_list_button, timeout=5) is not None)
+            return smart_wait_retry(
+                lambda: self.wait_for_element(self.return_to_list_button, timeout=5)
+                        is not None
+            )
         except Exception:
             return False
 
     def is_field_present(self, field_id):
         field_locator = (By.ID, field_id)
         try:
-            return smart_wait_retry(lambda: self.wait_for_element(field_locator, timeout=5) is not None)
+            return smart_wait_retry(
+                lambda: self.wait_for_element(field_locator, timeout=5) is not None
+            )
         except Exception:
             return False
 
@@ -160,40 +172,40 @@ class ContactDetailsPage(BasePage):
             )
             form = self.driver.find_element(*self.contact_chart)
             spans = form.find_elements(*self.contact_chart_span)
-            
+
             print(f"Found {len(spans)} span elements")
-            
+
             for i, span in enumerate(spans):
                 span_id = span.get_attribute("id") or "No ID"
                 span_text = span.text.strip() or "No text"
                 span_class = span.get_attribute("class") or "No class"
                 print(f"Span #{i}: ID={span_id}, Text='{span_text}', Class={span_class}")
-                
+
             return True
         except Exception as e:
             print(f"Error debugging elements: {str(e)}")
             return False
-            
+
     def collect_raw_data(self):
         def _collect():
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located(self.contact_chart)
             )
-            
+
             time.sleep(0.5)
-            
+
             form = self.driver.find_element(*self.contact_chart)
-            
+
             WebDriverWait(self.driver, 5).until(
                 EC.visibility_of(form)
             )
-            
+
             spans = form.find_elements(*self.contact_chart_span)
             
             WebDriverWait(self.driver, 5).until(
                 lambda d: len(spans) > 0
             )
-            
+
             contact_data = {}
             for span in spans:
                 span_id = span.get_attribute("id")
@@ -207,8 +219,7 @@ class ContactDetailsPage(BasePage):
                             span_text = span.text.strip()
                         except TimeoutException:
                             pass
-                    
+
                     contact_data[span_id] = span_text
             return contact_data
         return smart_wait_retry(_collect)
-
