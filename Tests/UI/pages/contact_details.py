@@ -12,7 +12,7 @@ from Tests.UI.pages.base_page import BasePage
 
 def smart_wait_retry(func, retries=3, delay=1, *args, **kwargs):
     last_exc = None
-    for attempt in range(retries):
+    for _ in range(retries):
         try:
             return func(*args, **kwargs)
         except (TimeoutException, NoSuchElementException, StaleElementReferenceException) as e:
@@ -141,18 +141,20 @@ class ContactDetailsPage(BasePage):
         try:
             return smart_wait_retry(
                 lambda: self.wait_for_element(self.edit_contact_button, timeout=5)
-                        is not None
+                    is not None
             )
-        except Exception:
+        except Exception as e:
+            print(f'Error clause {e}')
             return False
 
     def is_return_button_present(self):
         try:
             return smart_wait_retry(
                 lambda: self.wait_for_element(self.return_to_list_button, timeout=5)
-                        is not None
+                    is not None
             )
-        except Exception:
+        except Exception as e:
+            print(f'Error clause {e}')
             return False
 
     def is_field_present(self, field_id):
@@ -161,7 +163,8 @@ class ContactDetailsPage(BasePage):
             return smart_wait_retry(
                 lambda: self.wait_for_element(field_locator, timeout=5) is not None
             )
-        except Exception:
+        except Exception as e:
+            print(f'Error clause {e}')
             return False
 
     def debug_page_elements(self):
