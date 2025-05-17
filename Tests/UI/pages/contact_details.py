@@ -141,7 +141,7 @@ class ContactDetailsPage(BasePage):
         try:
             return smart_wait_retry(
                 lambda: self.wait_for_element(self.edit_contact_button, timeout=5)
-                    is not None
+                is not None
             )
         except Exception as e:
             print(f'Error clause {e}')
@@ -151,7 +151,7 @@ class ContactDetailsPage(BasePage):
         try:
             return smart_wait_retry(
                 lambda: self.wait_for_element(self.return_to_list_button, timeout=5)
-                    is not None
+                is not None
             )
         except Exception as e:
             print(f'Error clause {e}')
