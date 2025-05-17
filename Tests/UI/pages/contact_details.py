@@ -60,7 +60,6 @@ class ContactDetailsPage(BasePage):
             )
 
             spans = form.find_elements(*self.contact_chart_span)
-            
             WebDriverWait(self.driver, 5).until(
                 lambda d: len(spans) > 0
             )
@@ -201,7 +200,6 @@ class ContactDetailsPage(BasePage):
             )
 
             spans = form.find_elements(*self.contact_chart_span)
-            
             WebDriverWait(self.driver, 5).until(
                 lambda d: len(spans) > 0
             )
