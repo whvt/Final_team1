@@ -7,7 +7,7 @@ from Tests.API.contacts_requests import (
     get_contact_by_id,
     update_contact,
     delete_contact,
-    add_contact_with_payload
+    add_contact_with_payload,
 )
 from Tests.utils.generator import generate_random_email
 
@@ -46,14 +46,15 @@ def test_add_contact_without_street2():
         "lastName": "Contact",
         "email": "test.contact@example.com",
         "phone": "1234567890",
-        "street1": "Main Street"
+        "street1": "Main Street",
     }
     r = add_contact_with_payload(token, payload)
 
     assert r.status_code == 201, f"Expected 201 Created, but got {r.status_code}"
     assert "street1" in r.json(), "street1 field is missing in response"
-    assert ("street2" not in r.json() or r.json()["street2"]
-            is None), "street2 should be absent or null"
+    assert "street2" not in r.json() or r.json()["street2"] is None, (
+        "street2 should be absent or null"
+    )
 
 
 @pytest.mark.apitests
@@ -64,7 +65,7 @@ def test_add_contact_without_required_field():
     payload = {
         "lastName": "Contact",
         "email": generate_random_email(),
-        "phone": "1234567890"
+        "phone": "1234567890",
     }
     r = add_contact_with_payload(token, payload)
 
@@ -80,7 +81,7 @@ def test_add_contact_invalid_email():
         "firstName": "Test",
         "lastName": "Contact",
         "email": "invalid.email@",
-        "phone": "1234567890"
+        "phone": "1234567890",
     }
     r = add_contact_with_payload(token, payload)
 
@@ -97,7 +98,7 @@ def test_add_contact_invalid_birthdate():
         "lastName": "Contact",
         "email": generate_random_email(),
         "phone": "1234567890",
-        "birthdate": "01-01-1970"
+        "birthdate": "01-01-1970",
     }
     r = add_contact_with_payload(token, payload)
 
@@ -113,7 +114,7 @@ def test_add_contact_invalid_phone():
         "firstName": "Test",
         "lastName": "Contact",
         "email": generate_random_email(),
-        "phone": "123abc4567"
+        "phone": "123abc4567",
     }
     r = add_contact_with_payload(token, payload)
 
@@ -139,7 +140,7 @@ def test_add_contact_without_lastname():
     payload = {
         "firstName": "Test",
         "email": generate_random_email(),
-        "phone": "1234567890"
+        "phone": "1234567890",
     }
 
     r = add_contact_with_payload(token, payload)
@@ -241,7 +242,7 @@ def test_update_contact_put():
         "firstName": "PutUpdated",
         "lastName": "PutContact",
         "email": new_email,
-        "phone": "9876543210"
+        "phone": "9876543210",
     }
     r = update_contact(token, contact_id, method="put", payload=payload)
 
@@ -263,10 +264,7 @@ def test_update_contact_no_auth():
     contact_response = add_contact(token)
     contact_id = contact_response.json()["_id"]
 
-    payload = {
-        "firstName": "Updated",
-        "lastName": "Contact"
-    }
+    payload = {"firstName": "Updated", "lastName": "Contact"}
     r = update_contact(None, contact_id, payload=payload)
 
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
@@ -281,10 +279,7 @@ def test_update_contact_invalid_token():
     contact_response = add_contact(token)
     contact_id = contact_response.json()["_id"]
 
-    payload = {
-        "firstName": "Updated",
-        "lastName": "Contact"
-    }
+    payload = {"firstName": "Updated", "lastName": "Contact"}
     r = update_contact("invalid_token", contact_id, payload=payload)
 
     assert r.status_code == 401, f"Expected 401 Unauthorized, but got {r.status_code}"
@@ -297,10 +292,7 @@ def test_update_nonexistent_contact():
     token = login_user(user_email, True)
     nonexistent_id = "60d21b4667d0d8992e610c85"
 
-    payload = {
-        "firstName": "Updated",
-        "lastName": "Contact"
-    }
+    payload = {"firstName": "Updated", "lastName": "Contact"}
     r = update_contact(token, nonexistent_id, payload=payload)
 
     assert r.status_code == 404, f"Expected 404 Not Found, but got {r.status_code}"
@@ -314,11 +306,7 @@ def test_update_contact_invalid_email():
     contact_response = add_contact(token)
     contact_id = contact_response.json()["_id"]
 
-    payload = {
-        "firstName": "Updated",
-        "lastName": "Contact",
-        "email": "invalid.email@"
-    }
+    payload = {"firstName": "Updated", "lastName": "Contact", "email": "invalid.email@"}
     r = update_contact(token, contact_id, payload=payload)
 
     assert r.status_code == 400, f"Expected 400 Bad Request, but got {r.status_code}"
@@ -347,9 +335,7 @@ def test_patch_contact_partial_update():
     contact_id = contact_response.json()["_id"]
     original_email = contact_response.json()["email"]
 
-    payload = {
-        "firstName": "PatchUpdated"
-    }
+    payload = {"firstName": "PatchUpdated"}
     r = update_contact(token, contact_id, method="patch", payload=payload)
 
     assert r.status_code == 200, f"Expected 200 OK, but got {r.status_code}"
@@ -366,10 +352,7 @@ def test_patch_contact_multiple_fields():
     contact_id = contact_response.json()["_id"]
     new_emeil = generate_random_email()
     new_phone = "5555555555"
-    payload = {
-        "email": new_emeil,
-        "phone": new_phone
-    }
+    payload = {"email": new_emeil, "phone": new_phone}
     r = update_contact(token, contact_id, method="patch", payload=payload)
 
     assert r.status_code == 200, f"Expected 200 OK, but got {r.status_code}"

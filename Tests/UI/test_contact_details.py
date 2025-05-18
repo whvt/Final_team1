@@ -1,7 +1,11 @@
 import logging
 import time
 import pytest
-from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import (
+    TimeoutException,
+    NoSuchElementException,
+    StaleElementReferenceException,
+)
 from Tests.UI.pages.login_page import LoginPage
 from Tests.UI.pages.contact_list_page import ContactListPage
 from Tests.UI.pages.add_contact_page import AddContactPage
@@ -17,11 +21,17 @@ def retry_step(retries=3, delay=1):
             for _ in range(retries):
                 try:
                     return func(*args, **kwargs)
-                except (TimeoutException, NoSuchElementException, StaleElementReferenceException) as e:
+                except (
+                    TimeoutException,
+                    NoSuchElementException,
+                    StaleElementReferenceException,
+                ) as e:
                     last_exc = e
                     time.sleep(delay)
             raise last_exc
+
         return wrapper
+
     return decorator
 
 
@@ -41,7 +51,9 @@ def test_contact_details(driver):
     add_contact_page.enter_contact_details(contact_details)
     logger.info("Submitting form...")
     add_contact_page.submit_form()
-    logger.info("Collecting data from first row (first contact) in Contact List page...")
+    logger.info(
+        "Collecting data from first row (first contact) in Contact List page..."
+    )
     contacts_list_single_collected = retry_step()(contact_list_page.get_contacts)()
     logger.info("Navigating to Contact Details page...")
     contact_list_page.click_contact_data()
@@ -50,13 +62,13 @@ def test_contact_details(driver):
     logger.info("Comparing data from Contact List page and Contact Details page...")
     logger.info(f"Contact List data: {contacts_list_single_collected[0]}")
     logger.info(f"Contact Details data: {contact_detail_collected}")
-    
+
     try:
-        if hasattr(contact_detail_page, 'debug_page_elements'):
+        if hasattr(contact_detail_page, "debug_page_elements"):
             contact_detail_page.debug_page_elements()
     except Exception as e:
         logger.warning(f"Failed to execute debug output: {str(e)}")
-    
+
     list_and_detail_comparison1 = contact_detail_page.compare_dicts(
         contacts_list_single_collected[0], contact_detail_collected, ignore_keys={"id"}
     )
@@ -74,7 +86,9 @@ def test_contact_details(driver):
     logger.info("Comparing data from Contact List page and Contact Details page...")
     if contacts_list_single_collected:
         list_and_detail_comparison2 = contact_detail_page.compare_dicts(
-            contacts_list_single_collected[-1], contact_detail_collected, ignore_keys={"id"}
+            contacts_list_single_collected[-1],
+            contact_detail_collected,
+            ignore_keys={"id"},
         )
         assert list_and_detail_comparison2 is True
     logger.info("Navigating to Contact List page...")
@@ -91,17 +105,18 @@ def test_contact_details(driver):
     logger.info("Logging out...")
     contact_detail_page.logout()
 
+
 @pytest.mark.demo
 def test_contact_details_ui_elements(driver):
     logger = logging.getLogger(__name__)
     log_in_page = LoginPage(driver)
     contact_list_page = ContactListPage(driver)
     contact_detail_page = ContactDetailsPage(driver)
-    
+
     logger.info("Logging in...")
     log_in_page.open()
     log_in_page.login()
-    
+
     contacts = retry_step()(contact_list_page.get_contacts)()
     if not contacts:
         logger.info("No contacts found, creating test contact...")
@@ -113,17 +128,22 @@ def test_contact_details_ui_elements(driver):
     else:
         logger.info("Opening existing contact details page...")
         contact_list_page.click_contact_data()
-    
+
     logger.info("Checking page header...")
     header_text = contact_detail_page.get_page_header()
     assert header_text == "Contact Details", f"Invalid page header: {header_text}"
-    
+
     logger.info("Checking Edit and Return buttons presence...")
-    assert contact_detail_page.is_edit_button_present(), "Edit button is missing on the page"
-    assert contact_detail_page.is_return_button_present(), "Return button is missing on the page"
-    
+    assert contact_detail_page.is_edit_button_present(), (
+        "Edit button is missing on the page"
+    )
+    assert contact_detail_page.is_return_button_present(), (
+        "Return button is missing on the page"
+    )
+
     logger.info("Logging out...")
     contact_detail_page.logout()
+
 
 @pytest.mark.demo
 def test_contact_details_field_presence(driver):
@@ -131,11 +151,11 @@ def test_contact_details_field_presence(driver):
     log_in_page = LoginPage(driver)
     contact_list_page = ContactListPage(driver)
     contact_detail_page = ContactDetailsPage(driver)
-    
+
     logger.info("Logging in...")
     log_in_page.open()
     log_in_page.login()
-    
+
     contacts = retry_step()(contact_list_page.get_contacts)()
     if not contacts:
         logger.info("No contacts found, creating test contact...")
@@ -147,12 +167,14 @@ def test_contact_details_field_presence(driver):
     else:
         logger.info("Opening existing contact details page...")
         contact_list_page.click_contact_data()
-    
+
     logger.info("Checking presence of all required fields...")
     required_fields = ["firstName", "lastName", "birthdate", "email", "phone"]
     for field in required_fields:
-        assert contact_detail_page.is_field_present(field), f"Field {field} is missing on the page"
-    
+        assert contact_detail_page.is_field_present(field), (
+            f"Field {field} is missing on the page"
+        )
+
     logger.info("Logging out...")
     contact_detail_page.logout()
 
@@ -163,34 +185,34 @@ def test_contact_details_non_empty_values(driver):
     add_contact_page = AddContactPage(driver)
     contact_list_page = ContactListPage(driver)
     contact_detail_page = ContactDetailsPage(driver)
-    
+
     logger.info("Logging in...")
     log_in_page.open()
     log_in_page.login()
-    
+
     logger.info("Creating new contact...")
     contact_list_page.click_add_contact()
     add_contact_page.enter_contact_details(contact_details)
     add_contact_page.submit_form()
-    
+
     logger.info("Waiting for contact list update...")
     time.sleep(1)
-    
+
     contact_list_page.click_contact_data()
-    
+
     logger.info("Waiting for contact details page to fully load...")
     time.sleep(2)
-    
+
     contact_data = contact_detail_page.collect_data()
-    
+
     logger.info(f"Collected contact data: {contact_data}")
-    
+
     logger.info("Checking non-empty values for fields...")
     required_non_empty_fields = ["name", "email", "phone"]
     for field in required_non_empty_fields:
         assert field in contact_data, f"Field {field} is missing in collected data"
         assert contact_data[field], f"Field {field} has empty value"
-    
+
     logger.info("Deleting test contact and logging out...")
     contact_detail_page.delete()
     contact_detail_page.return_to_list()
@@ -203,14 +225,14 @@ def test_contact_details_format_validation(driver):
     add_contact_page = AddContactPage(driver)
     contact_list_page = ContactListPage(driver)
     contact_detail_page = ContactDetailsPage(driver)
-    
+
     logger.info("Logging in...")
     log_in_page.open()
     log_in_page.login()
-    
+
     logger.info("Creating new contact...")
     contact_list_page.click_add_contact()
-    
+
     test_contact = {
         "first_name": "Test",
         "last_name": "Format",
@@ -222,37 +244,43 @@ def test_contact_details_format_validation(driver):
         "city": "TestCity",
         "state_province": "TS",
         "postal_code": "12345",
-        "country": "TestCountry"
+        "country": "TestCountry",
     }
-    
+
     add_contact_page.enter_contact_details(test_contact)
     add_contact_page.submit_form()
     contact_list_page.click_contact_data()
-    
+
     contact_data = contact_detail_page.collect_raw_data()
-    
+
     if "birthdate" in contact_data and contact_data["birthdate"]:
         logger.info("Checking birthdate format...")
         import re
-        date_pattern = r'^\d{4}-\d{2}-\d{2}$'
-        assert re.match(date_pattern, contact_data["birthdate"]), \
+
+        date_pattern = r"^\d{4}-\d{2}-\d{2}$"
+        assert re.match(date_pattern, contact_data["birthdate"]), (
             f"Invalid birthdate format: {contact_data['birthdate']}"
-    
+        )
+
     if "email" in contact_data and contact_data["email"]:
         logger.info("Checking email format...")
-        assert "@" in contact_data["email"], f"Email doesn't contain @ symbol: {contact_data['email']}"
-        assert "." in contact_data["email"].split("@")[1], \
+        assert "@" in contact_data["email"], (
+            f"Email doesn't contain @ symbol: {contact_data['email']}"
+        )
+        assert "." in contact_data["email"].split("@")[1], (
             f"Email domain is invalid: {contact_data['email']}"
-    
+        )
+
     if "phone" in contact_data and contact_data["phone"]:
         logger.info("Checking phone format...")
         import re
-        phone_pattern = r'^[0-9+\-() ]+$'
-        assert re.match(phone_pattern, contact_data["phone"]), \
+
+        phone_pattern = r"^[0-9+\-() ]+$"
+        assert re.match(phone_pattern, contact_data["phone"]), (
             f"Invalid phone format: {contact_data['phone']}"
-    
+        )
+
     logger.info("Deleting test contact and logging out...")
     contact_detail_page.delete()
     contact_detail_page.return_to_list()
     contact_detail_page.logout()
-

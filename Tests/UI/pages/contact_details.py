@@ -2,7 +2,11 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import (
+    TimeoutException,
+    NoSuchElementException,
+    StaleElementReferenceException,
+)
 from Tests.UI.pages.base_page import BasePage
 
 
@@ -11,7 +15,11 @@ def smart_wait_retry(func, retries=3, delay=1, *args, **kwargs):
     for attempt in range(retries):
         try:
             return func(*args, **kwargs)
-        except (TimeoutException, NoSuchElementException, StaleElementReferenceException) as e:
+        except (
+            TimeoutException,
+            NoSuchElementException,
+            StaleElementReferenceException,
+        ) as e:
             last_exc = e
             time.sleep(delay)
     raise last_exc
@@ -32,13 +40,19 @@ class ContactDetailsPage(BasePage):
         smart_wait_retry(lambda: self.wait_for_element(self.logout_button).click())
 
     def return_to_list(self):
-        smart_wait_retry(lambda: self.wait_for_element(self.return_to_list_button).click())
+        smart_wait_retry(
+            lambda: self.wait_for_element(self.return_to_list_button).click()
+        )
 
     def edit(self):
-        smart_wait_retry(lambda: self.wait_for_element(self.edit_contact_button).click())
+        smart_wait_retry(
+            lambda: self.wait_for_element(self.edit_contact_button).click()
+        )
 
     def delete(self):
-        smart_wait_retry(lambda: self.wait_for_element(self.delete_contact_button).click())
+        smart_wait_retry(
+            lambda: self.wait_for_element(self.delete_contact_button).click()
+        )
         smart_wait_retry(lambda: self.driver.switch_to.alert.accept())
 
     def collect_data(self):
@@ -46,21 +60,17 @@ class ContactDetailsPage(BasePage):
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located(self.contact_chart)
             )
-            
+
             time.sleep(0.5)
-            
+
             form = self.driver.find_element(*self.contact_chart)
-            
-            WebDriverWait(self.driver, 5).until(
-                EC.visibility_of(form)
-            )
-            
+
+            WebDriverWait(self.driver, 5).until(EC.visibility_of(form))
+
             spans = form.find_elements(*self.contact_chart_span)
-            
-            WebDriverWait(self.driver, 5).until(
-                lambda d: len(spans) > 0
-            )
-            
+
+            WebDriverWait(self.driver, 5).until(lambda d: len(spans) > 0)
+
             contact_data = {}
             for span in spans:
                 span_id = span.get_attribute("id")
@@ -74,36 +84,37 @@ class ContactDetailsPage(BasePage):
                             span_text = span.text.strip()
                         except TimeoutException:
                             pass
-                    
+
                     contact_data[span_id] = span_text
 
-            first_name = contact_data.get('firstName', '').strip()
-            last_name = contact_data.get('lastName', '').strip()
-            contact_data['name'] = f"{first_name} {last_name}".strip()
+            first_name = contact_data.get("firstName", "").strip()
+            last_name = contact_data.get("lastName", "").strip()
+            contact_data["name"] = f"{first_name} {last_name}".strip()
 
-            street1 = contact_data.get('street1', '').strip()
-            street2 = contact_data.get('street2', '').strip()
+            street1 = contact_data.get("street1", "").strip()
+            street2 = contact_data.get("street2", "").strip()
             if street2:
-                contact_data['address'] = f"{street1} {street2}".strip()
+                contact_data["address"] = f"{street1} {street2}".strip()
             else:
-                contact_data['address'] = street1
-            contact_data.pop('firstName', None)
-            contact_data.pop('lastName', None)
-            contact_data.pop('street1', None)
-            contact_data.pop('street2', None)
+                contact_data["address"] = street1
+            contact_data.pop("firstName", None)
+            contact_data.pop("lastName", None)
+            contact_data.pop("street1", None)
+            contact_data.pop("street2", None)
 
-            city = contact_data.get('city', '').strip()
-            state = contact_data.get('stateProvince', '').strip()
-            postal = contact_data.get('postalCode', '').strip()
+            city = contact_data.get("city", "").strip()
+            state = contact_data.get("stateProvince", "").strip()
+            postal = contact_data.get("postalCode", "").strip()
             contact_data["location"] = f"{city} {state} {postal}".strip()
-            contact_data.pop('city', None)
-            contact_data.pop('stateProvince', None)
-            contact_data.pop('postalCode', None)
+            contact_data.pop("city", None)
+            contact_data.pop("stateProvince", None)
+            contact_data.pop("postalCode", None)
 
-            for key in ['email', 'phone', 'country', 'birthdate']:
-                contact_data[key] = contact_data.get(key, '').strip()
+            for key in ["email", "phone", "country", "birthdate"]:
+                contact_data[key] = contact_data.get(key, "").strip()
 
             return contact_data
+
         return smart_wait_retry(_collect)
 
     @staticmethod
@@ -126,8 +137,13 @@ class ContactDetailsPage(BasePage):
             if value_differences:
                 print("Differences found. Value differences:")
                 for key, (val1, val2) in value_differences.items():
-                    print(f" {key}: {val1} (first) != {val2} (second)", 'len1=|',
-                          len(val1), 'len2=|', len(val2))
+                    print(
+                        f" {key}: {val1} (first) != {val2} (second)",
+                        "len1=|",
+                        len(val1),
+                        "len2=|",
+                        len(val2),
+                    )
         return identical
 
     def get_page_header(self):
@@ -136,20 +152,28 @@ class ContactDetailsPage(BasePage):
 
     def is_edit_button_present(self):
         try:
-            return smart_wait_retry(lambda: self.wait_for_element(self.edit_contact_button, timeout=5) is not None)
+            return smart_wait_retry(
+                lambda: self.wait_for_element(self.edit_contact_button, timeout=5)
+                is not None
+            )
         except Exception:
             return False
 
     def is_return_button_present(self):
         try:
-            return smart_wait_retry(lambda: self.wait_for_element(self.return_to_list_button, timeout=5) is not None)
+            return smart_wait_retry(
+                lambda: self.wait_for_element(self.return_to_list_button, timeout=5)
+                is not None
+            )
         except Exception:
             return False
 
     def is_field_present(self, field_id):
         field_locator = (By.ID, field_id)
         try:
-            return smart_wait_retry(lambda: self.wait_for_element(field_locator, timeout=5) is not None)
+            return smart_wait_retry(
+                lambda: self.wait_for_element(field_locator, timeout=5) is not None
+            )
         except Exception:
             return False
 
@@ -160,40 +184,38 @@ class ContactDetailsPage(BasePage):
             )
             form = self.driver.find_element(*self.contact_chart)
             spans = form.find_elements(*self.contact_chart_span)
-            
+
             print(f"Found {len(spans)} span elements")
-            
+
             for i, span in enumerate(spans):
                 span_id = span.get_attribute("id") or "No ID"
                 span_text = span.text.strip() or "No text"
                 span_class = span.get_attribute("class") or "No class"
-                print(f"Span #{i}: ID={span_id}, Text='{span_text}', Class={span_class}")
-                
+                print(
+                    f"Span #{i}: ID={span_id}, Text='{span_text}', Class={span_class}"
+                )
+
             return True
         except Exception as e:
             print(f"Error debugging elements: {str(e)}")
             return False
-            
+
     def collect_raw_data(self):
         def _collect():
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located(self.contact_chart)
             )
-            
+
             time.sleep(0.5)
-            
+
             form = self.driver.find_element(*self.contact_chart)
-            
-            WebDriverWait(self.driver, 5).until(
-                EC.visibility_of(form)
-            )
-            
+
+            WebDriverWait(self.driver, 5).until(EC.visibility_of(form))
+
             spans = form.find_elements(*self.contact_chart_span)
-            
-            WebDriverWait(self.driver, 5).until(
-                lambda d: len(spans) > 0
-            )
-            
+
+            WebDriverWait(self.driver, 5).until(lambda d: len(spans) > 0)
+
             contact_data = {}
             for span in spans:
                 span_id = span.get_attribute("id")
@@ -207,8 +229,8 @@ class ContactDetailsPage(BasePage):
                             span_text = span.text.strip()
                         except TimeoutException:
                             pass
-                    
+
                     contact_data[span_id] = span_text
             return contact_data
-        return smart_wait_retry(_collect)
 
+        return smart_wait_retry(_collect)

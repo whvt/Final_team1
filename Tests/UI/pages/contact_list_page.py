@@ -11,7 +11,10 @@ class ContactListPage(BasePage):
         self.logout_button = ("id", "logout")
         self.add_contact_button = ("id", "add-contact")
         self.contact_table_rows = ("css selector", "tr.contactTableBodyRow")
-        self.contact_data_button = (By.XPATH, f"//tr[@class='contactTableBodyRow'][{self.num}]")
+        self.contact_data_button = (
+            By.XPATH,
+            f"//tr[@class='contactTableBodyRow'][{self.num}]",
+        )
 
     def click_contact_data(self):
         self.wait_for_element(self.contact_data_button).click()
