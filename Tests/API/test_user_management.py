@@ -18,6 +18,7 @@ email = generate_random_email()
 @pytest.mark.apitests
 @pytest.mark.user_management
 @pytest.mark.regression
+@pytest.mark.demo
 def test_add_user():
     """
     test add user
@@ -31,6 +32,7 @@ def test_add_user():
 @pytest.mark.apitests
 @pytest.mark.user_management
 @pytest.mark.regression
+@pytest.mark.demo
 def test_add_user_empty_firstname():
     """
     test add user with empty firstname
@@ -91,6 +93,7 @@ def test_add_user_short_password():
 @pytest.mark.apitests
 @pytest.mark.user_management
 @pytest.mark.regression
+@pytest.mark.demo
 def test_add_user_empty_email():
     """
     test add user with empty email
@@ -121,6 +124,7 @@ def test_add_user_invalid_email():
 @pytest.mark.apitests
 @pytest.mark.auth
 @pytest.mark.regression
+@pytest.mark.demo
 def test_login_user():
     """
     test login user
@@ -343,6 +347,7 @@ def test_update_user_profile_unauthorized():
 @pytest.mark.apitests
 @pytest.mark.auth
 @pytest.mark.regression
+@pytest.mark.demo
 def test_logout_user():
     """
     test logout user
@@ -374,6 +379,7 @@ def test_logout_user_repeated():
 @pytest.mark.apitests
 @pytest.mark.user_management
 @pytest.mark.regression
+@pytest.mark.demo
 def test_delete_user():
     """
     test delete user

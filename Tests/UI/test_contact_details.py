@@ -1,5 +1,6 @@
 import logging
 import time
+import pytest
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
 from Tests.UI.pages.login_page import LoginPage
 from Tests.UI.pages.contact_list_page import ContactListPage
@@ -90,7 +91,7 @@ def test_contact_details(driver):
     logger.info("Logging out...")
     contact_detail_page.logout()
 
-
+@pytest.mark.demo
 def test_contact_details_ui_elements(driver):
     logger = logging.getLogger(__name__)
     log_in_page = LoginPage(driver)
@@ -124,7 +125,7 @@ def test_contact_details_ui_elements(driver):
     logger.info("Logging out...")
     contact_detail_page.logout()
 
-
+@pytest.mark.demo
 def test_contact_details_field_presence(driver):
     logger = logging.getLogger(__name__)
     log_in_page = LoginPage(driver)

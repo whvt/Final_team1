@@ -1,10 +1,12 @@
 import logging
+import pytest
 from Tests.UI.pages.login_page import LoginPage
 from Tests.UI.pages.contact_list_page import ContactListPage
 from Tests.UI.pages.add_contact_page import AddContactPage
 from Tests.config.user_creds import contact_details
 
 
+@pytest.mark.demo
 def test_add_contact(driver):
     logger = logging.getLogger(__name__)
     logger.info("Starting test_add_contact...")

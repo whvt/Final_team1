@@ -22,6 +22,7 @@ def setup_module():
 @pytest.mark.apitests
 @pytest.mark.contact_management
 @pytest.mark.regression
+@pytest.mark.demo
 def test_add_contact():
     token = login_user(user_email, True)
     r = add_contact(token)
@@ -150,6 +151,7 @@ def test_add_contact_without_lastname():
 @pytest.mark.contact_management
 @pytest.mark.auth
 @pytest.mark.regression
+@pytest.mark.demo
 def test_get_contacts_no_auth():
     r = get_contacts(None)
 
@@ -422,6 +424,7 @@ def test_delete_contact_twice():
 @pytest.mark.apitests
 @pytest.mark.contact_management
 @pytest.mark.regression
+@pytest.mark.demo
 def test_delete_nonexistent_contact():
     token = login_user(user_email, True)
     nonexistent_id = "60d21b4667d0d8992e610c85"
