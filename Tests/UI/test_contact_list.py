@@ -64,7 +64,7 @@ def test_contact_list_table_duplicates(driver):
     login_page.login()
     logger.info("looking for duplicates...")
     duplicates = contact_list_page.contact_list_table_duplicates()
-    assert len(duplicates) > 0 , "Не найдены полные дубликаты контактов"
+    assert len(duplicates) > 0, "Не найдены полные дубликаты контактов"
     logger.info("Duplicates were found, quantity is : %s.", duplicates)
 
 

@@ -13,17 +13,16 @@ from selenium.common.exceptions import (
 from Tests.UI.pages.base_page import BasePage
 
 
-# def smart_wait_retry(func, retries=3, delay=1, *args, **kwargs):
-def smart_wait_retry(func, *args, retries=3, delay=1, **kwargs):
+def smart_wait_retry(a_func, *args, retries=3, delay=1, **kwargs):
     """smart wait retry"""
     last_exc = None
     for _ in range(retries):
         try:
-            return func(*args, **kwargs)
+            return a_func(*args, **kwargs)
         except (
-            TimeoutException,
-            NoSuchElementException,
             StaleElementReferenceException,
+            NoSuchElementException,
+            TimeoutException,
         ) as e:
             last_exc = e
             time.sleep(delay)
