@@ -45,14 +45,14 @@ def test_contact_details(driver):
     log_in_page, add_contact_page = LoginPage(driver), AddContactPage(driver)
     contact_list_page, contact_detail_page = ContactListPage(driver), ContactDetailsPage(driver)
     contact_edit_page = ContactEditsPage(driver)
-    logger.info("Logging in...")
+    logger.info("Logging in ...")
     log_in_page.open()
     log_in_page.login()
-    logger.info("Navigating to Add Contact page...")
+    logger.info("Navigating to Add Contact page ...")
     contact_list_page.click_add_contact()
-    logger.info("Filling contact details...")
+    logger.info("Filling contact details ...")
     add_contact_page.enter_contact_details(contact_details)
-    logger.info("Submitting form...")
+    logger.info("Submitting form ...")
     add_contact_page.submit_form()
     logger.info(
         "Collecting data from first row (first contact) in Contact List page..."
