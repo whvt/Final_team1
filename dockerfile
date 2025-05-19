@@ -19,4 +19,4 @@ RUN mkdir -p /app/allure-results
 
 EXPOSE 5050
 
-CMD ["pytest", "-s", "-v", "--alluredir=allure-results"]
+CMD ["pytest", "-s", "-v", "-m", "demo", "--alluredir=allure-results"]

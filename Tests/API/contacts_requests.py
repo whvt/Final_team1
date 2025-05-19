@@ -11,13 +11,10 @@ def add_contact(token):
             "firstName": "Test",
             "lastName": "Contact",
             "email": "test.contact@example.com",
-            "phone": "1234567890"
+            "phone": "1234567890",
         }
     )
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {token}"
-    }
+    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {token}"}
 
     try:
         response = requests.post(
@@ -63,7 +60,7 @@ def update_contact(token, contact_id, method="patch", payload=None):
             "firstName": "Updated",
             "lastName": "Contact",
             "email": "updated.contact@example.com",
-            "phone": "9876543210"
+            "phone": "9876543210",
         }
 
     headers = {
@@ -104,7 +101,7 @@ def add_contact_with_payload(token, payload):
     endpoint = "/contacts"
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {token}" if token else ""
+        "Authorization": f"Bearer {token}" if token else "",
     }
 
     try:

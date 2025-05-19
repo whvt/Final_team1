@@ -35,7 +35,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                     sh 'docker build -t teamone .'
-                    sh 'docker run --rm --network=host -v $(pwd)/$ALLURE_RESULTS_DIR:/allure-results teamone pytest -v --alluredir=/allure-results'
+                    sh 'docker run --rm --network=host -v $(pwd)/$ALLURE_RESULTS_DIR:/allure-results teamone pytest -v -m demo --alluredir=/allure-results'
                 }
             }
         }
