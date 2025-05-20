@@ -2,6 +2,7 @@
 
 
 import logging
+import pytest
 from Tests.UI.pages.login_page import LoginPage
 from Tests.UI.pages.contact_list_page import ContactListPage
 
@@ -67,7 +68,7 @@ def test_contact_list_table_duplicates(driver):
     assert len(duplicates) > 0, "Не найдены полные дубликаты контактов"
     logger.info("Duplicates were found, quantity is : %s.", duplicates)
 
-
+@pytest.mark.demo
 def test_add_contact_button(driver):
     """test add contact button functionality"""
     logger = logging.getLogger(__name__)
@@ -81,7 +82,7 @@ def test_add_contact_button(driver):
     contact_list_page.click_add_contact()
     assert "Add Contact" in driver.title
 
-
+@pytest.mark.demo
 def test_logout_functionality(driver):
     """test logout button functionality"""
     logger = logging.getLogger(__name__)
