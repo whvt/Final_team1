@@ -172,7 +172,7 @@ def test_contact_details_field_presence(driver):
     logger.info("Logging out...")
     contact_detail_page.logout()
 
-@pytest.mark.demo
+
 def test_contact_details_non_empty_values(driver):
     """test contact details non empty values"""
     logger = logging.getLogger(__name__)
